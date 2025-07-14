@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+  <script type="text/javascript">
+  function translateTo(lang) {
+    // Charger Google Translate une seule fois
+    if (!window.googleTranslateLoaded) {
+      const script = document.createElement('script');
+      script.src = "//translate.google.com/translate_a/element.js?cb=initTranslate";
+      document.body.appendChild(script);
+      window.googleTranslateLoaded = true;
+
+      // Une fois chargé, lancer la traduction
+      window.initTranslate = function () {
+        new google.translate.TranslateElement({ pageLanguage: 'fr' }, 'google_translate_element');
+
+        setTimeout(() => {
+          switchLanguage(lang);
+        }, 500);
+      };
+    } else {
+      switchLanguage(lang);
+    }
+  }
+
+  function switchLanguage(lang) {
+    const combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      combo.value = lang;
+      combo.dispatchEvent(new Event('change'));
+    }
+  }
+</script>
+
+<!-- Élément requis pour que le script fonctionne -->
+<div id="google_translate_element" style="display: none;"></div>
+
+<body>
+  <!-- Boutons de traduction personnalisés -->
+<div id="translate-buttons" class="btn-group" style="position: fixed; bottom: 15px; right: 15px; z-index: 9999;">
+  <button onclick="translateTo('en')" class="btn btn-sm btn-outline-primary">🇬🇧 Anglais</button>
+  <button onclick="translateTo('es')" class="btn btn-sm btn-outline-success">🇪🇸 Espagnol</button>
+  <button onclick="translateTo('de')" class="btn btn-sm btn-outline-secondary">🇩🇪 Allemand</button>
+  <button onclick="translateTo('fr')" class="btn btn-sm btn-outline-dark">🇫🇷 Français</button>
+</div>
+
+</body>
+</html>
